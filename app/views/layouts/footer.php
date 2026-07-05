@@ -19,19 +19,141 @@
     </div>
     <!-- End Container -->
 
-    <footer class="bg-white border-top py-3 mt-5">
+    <footer class="bg-white border-top mt-5">
 
-        <div class="container text-center">
+        <div class="container py-4">
 
-            <small class="text-muted">
+            <div class="row">
 
-                &copy; <?= date('Y'); ?>
+                <div class="col-md-5">
 
-                BreadShop.
+                    <h5 class="fw-bold">
 
-                Dibuat untuk Projek UAS Pemrograman Web Lanjut.
+                        🍞 BreadShop
 
-            </small>
+                    </h5>
+
+                    <p class="text-muted mb-0">
+
+                        BreadShop merupakan website penjualan roti berbasis
+                        PHP Native dengan arsitektur MVC sebagai proyek
+                        mata kuliah Pemrograman Web Lanjut.
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-3 mt-4 mt-md-0">
+
+                    <h6 class="fw-bold">
+
+                        Menu
+
+                    </h6>
+
+                    <ul class="list-unstyled">
+
+                        <li>
+
+                            <a
+                                href="<?= BASE_URL; ?>"
+                                class="text-decoration-none text-muted">
+
+                                Home
+
+                            </a>
+
+                        </li>
+
+                        <li>
+
+                            <a
+                                href="<?= BASE_URL; ?>/products"
+                                class="text-decoration-none text-muted">
+
+                                Produk
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="col-md-4 mt-4 mt-md-0">
+
+                    <h6 class="fw-bold">
+
+                        Akun
+
+                    </h6>
+
+                    <ul class="list-unstyled">
+
+                        <?php if (!isset($_SESSION['user_id'])) : ?>
+
+                            <li>
+
+                                <a
+                                    href="<?= BASE_URL; ?>/login"
+                                    class="text-decoration-none text-muted">
+
+                                    Login
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a
+                                    href="<?= BASE_URL; ?>/register"
+                                    class="text-decoration-none text-muted">
+
+                                    Register
+
+                                </a>
+
+                            </li>
+
+                        <?php else : ?>
+
+                            <li class="text-muted">
+
+                                Login sebagai
+
+                                <strong>
+
+                                    <?= htmlspecialchars($_SESSION['user_name']); ?>
+
+                                </strong>
+
+                            </li>
+
+                        <?php endif; ?>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="text-center">
+
+                <small class="text-muted">
+
+                    &copy; <?= date('Y'); ?>
+
+                    BreadShop.
+
+                    Seluruh hak cipta dilindungi.
+
+                </small>
+
+            </div>
 
         </div>
 

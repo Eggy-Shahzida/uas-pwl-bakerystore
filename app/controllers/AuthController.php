@@ -15,7 +15,13 @@ class AuthController extends Controller
 {
     public function showLogin(): void
     {
-        $this->view('auth/login');
+            $this->view('auth/login', [
+
+                'errors' => [],
+
+                'old' => []
+
+            ]);
     }
 
     /**
@@ -23,6 +29,7 @@ class AuthController extends Controller
      */
     public function login(): void
     {
+        
         /*
         |--------------------------------------------------------------------------
         | Memanggil UserModel

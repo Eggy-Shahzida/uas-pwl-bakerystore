@@ -1,78 +1,165 @@
-<!DOCTYPE html>
-<html lang="id">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <title>Login - BreadShop</title>
-</head>
+/*
+|--------------------------------------------------------------------------
+| Login View
+|--------------------------------------------------------------------------
+*/
 
-<body>
+$title = 'Login';
 
-    <h2>Login BreadShop</h2>
+$pageScript = 'login';
 
-    <?php if (!empty($errors['general'])) : ?>
+require_once APP_PATH . '/views/layouts/header.php';
 
-        <p style="color:red;">
-            <?= $errors['general']; ?>
-        </p>
+?>
 
-    <?php endif; ?>
+<div class="row justify-content-center">
 
-    <form action="<?= BASE_URL; ?>/login" method="POST">
+    <div class="col-md-6 col-lg-5">
 
-        <p>
+        <div class="card shadow-sm border-0">
 
-            <label>Email</label><br>
+            <div class="card-body p-4">
 
-            <input
-                type="email"
-                name="email"
-                value="<?= htmlspecialchars($old['email'] ?? '') ?>">
+                <div class="text-center mb-4">
 
-            <br>
+                    <h2 class="fw-bold">
 
-            <small style="color:red;">
-                <?= $errors['email'] ?? '' ?>
-            </small>
+                        <i class="bi bi-shop"></i>
 
-        </p>
+                        BreadShop
 
-        <p>
+                    </h2>
 
-            <label>Password</label><br>
+                    <p class="text-muted mb-0">
 
-            <input
-                type="password"
-                name="password">
+                        Masuk ke akun Anda
 
-            <br>
+                    </p>
 
-            <small style="color:red;">
-                <?= $errors['password'] ?? '' ?>
-            </small>
+                </div>
 
-        </p>
+                <?php if (!empty($errors['general'])) : ?>
 
-        <button type="submit">
+                    <div class="alert alert-danger">
 
-            Login
+                        <?= htmlspecialchars($errors['general']); ?>
 
-        </button>
+                    </div>
 
-    </form>
+                <?php endif; ?>
 
-    <p>
+                <form
+                    action="<?= BASE_URL; ?>/login"
+                    method="POST">
 
-        Belum punya akun?
+                    <div class="mb-3">
 
-        <a href="<?= BASE_URL; ?>/register">
+                        <label
+                            for="email"
+                            class="form-label">
 
-            Register
+                            Email
 
-        </a>
+                        </label>
 
-    </p>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-control"
+                            value="<?= htmlspecialchars($old['email'] ?? '') ?>">
 
-</body>
+                        <?php if (!empty($errors['email'])) : ?>
 
-</html>
+                            <small class="text-danger">
+
+                                <?= htmlspecialchars($errors['email']); ?>
+
+                            </small>
+
+                        <?php endif; ?>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label
+                            for="password"
+                            class="form-label">
+
+                            Password
+
+                        </label>
+
+                        <div class="input-group">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control">
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                id="toggle-password">
+
+                                <i
+                                    class="bi bi-eye"
+                                    id="password-icon"></i>
+
+                            </button>
+
+                        </div>
+
+                        <?php if (!empty($errors['password'])) : ?>
+
+                            <small class="text-danger">
+
+                                <?= htmlspecialchars($errors['password']); ?>
+
+                            </small>
+
+                        <?php endif; ?>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100">
+
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                        Login
+
+                    </button>
+
+                </form>
+
+                <hr>
+
+                <p class="text-center mb-0">
+
+                    Belum memiliki akun?
+
+                    <a href="<?= BASE_URL; ?>/register">
+
+                        Daftar
+
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<?php
+
+require_once APP_PATH . '/views/layouts/footer.php';

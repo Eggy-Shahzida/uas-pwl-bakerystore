@@ -17,11 +17,6 @@ class HomeController extends Controller
      */
     public function index(): void
     {
-        echo '<pre>';
-
-        print_r($_SESSION);
-
-        echo '</pre>';
         $this->view('home/index');
     }
 }

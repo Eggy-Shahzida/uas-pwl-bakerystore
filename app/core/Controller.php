@@ -114,4 +114,14 @@ class Controller
             die('403 Forbidden');
         }
     }
+
+
+    protected function requireGuest(): void
+    {
+        if (isset($_SESSION['user_id'])) {
+
+            $this->redirect('/');
+
+        }
+    }
 }
