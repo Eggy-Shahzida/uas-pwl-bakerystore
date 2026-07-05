@@ -31,7 +31,7 @@ class App
             $method = 'index';
             $params = [];
         } else {
-
+            $params = [];
             switch ($url[0]) {
 
                 case 'login':
@@ -61,12 +61,74 @@ class App
 
                 case 'products':
                     $controller = 'ProductController';
-                    $method = $url[1] ?? 'index';
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | /products
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (!isset($url[1])) {
+
+                        $method = 'index';
+
+                        $params = [];
+
+                    } else {
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | /products/{slug}
+                        |--------------------------------------------------------------------------
+                        */
+
+                        $method = 'show';
+
+                        $params = [
+
+                            $url[1]
+
+                        ];
+
+                    }
+
                     break;
 
                 case 'cart':
                     $controller = 'CartController';
-                    $method = $url[1] ?? 'index';
+
+                    if (!isset($url[1])) {
+
+                        $method = 'index';
+
+                        $params = [];
+
+                    } elseif ($url[1] === 'add') {
+
+                        $method = 'add';
+
+                        $params = [];
+
+                    } elseif ($url[1] === 'remove') {
+
+                        $method = 'remove';
+
+                        $params = [];
+
+                    } elseif ($url[1] === 'update') {
+
+                        $method = 'update';
+
+                        $params = [];
+
+                    } else {
+
+                        $method = 'index';
+
+                        $params = [];
+
+                    }
+
                     break;
 
                 case 'checkout':
@@ -90,7 +152,7 @@ class App
                     break;
             }
 
-            $params = array_slice($url, 2);
+            //$params = array_slice($url, 2);
         }
 
         $controllerFile = APP_PATH . '/controllers/' . $controller . '.php';

@@ -399,17 +399,5 @@ $currentSegment = explode('/', $currentUrl)[0];
 
 </nav>
 
-<button
-    class="btn btn-primary dropdown-toggle"
-    data-bs-toggle="dropdown">
-
-    Test Dropdown
-
-</button>
-
-<ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Satu</a></li>
-    <li><a class="dropdown-item" href="#">Dua</a></li>
-</ul>
 
 <div class="container py-4">

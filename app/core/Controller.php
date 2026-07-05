@@ -32,6 +32,8 @@ class Controller
         require_once $viewFile;
     }
 
+    
+
     /**
      * Memuat dan membuat object Model.
      *

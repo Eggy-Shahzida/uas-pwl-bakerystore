@@ -76,79 +76,35 @@ require_once APP_PATH . '/views/layouts/header.php';
 
 </h3>
 
-<div class="row text-center mb-5">
+<div class="row">
 
-    <div class="col-md-4 mb-3">
+    <?php foreach ($categories as $category) : ?>
 
-        <div class="card border-0 shadow-sm h-100">
+        <div class="col-md-4 mb-3">
 
-            <div class="card-body">
+            <div class="card border-0 shadow-sm h-100">
 
-                <div class="display-4">
+                <div class="card-body text-center">
 
-                    🥖
+                    <div class="display-5 mb-3">
+
+                        🍞
+
+                    </div>
+
+                    <h5>
+
+                        <?= htmlspecialchars($category['name']); ?>
+
+                    </h5>
 
                 </div>
-
-                <h5>
-
-                    Bread
-
-                </h5>
 
             </div>
 
         </div>
 
-    </div>
-
-    <div class="col-md-4 mb-3">
-
-        <div class="card border-0 shadow-sm h-100">
-
-            <div class="card-body">
-
-                <div class="display-4">
-
-                    🥐
-
-                </div>
-
-                <h5>
-
-                    Pastry
-
-                </h5>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-4 mb-3">
-
-        <div class="card border-0 shadow-sm h-100">
-
-            <div class="card-body">
-
-                <div class="display-4">
-
-                    🎂
-
-                </div>
-
-                <h5>
-
-                    Cake
-
-                </h5>
-
-            </div>
-
-        </div>
-
-    </div>
+    <?php endforeach; ?>
 
 </div>
 
@@ -161,102 +117,65 @@ require_once APP_PATH . '/views/layouts/header.php';
 </h3>
 
 <div class="row">
-    <?php
 
-$products = [
+    <?php foreach ($products as $product) : ?>
 
-    [
-        'name' => 'Roti Coklat',
-        'price' => 15000,
-        'category' => 'Bread',
-        'image' => 'https://placehold.co/600x400?text=Roti+Coklat'
-    ],
+        <div class="col-lg-3 col-md-6 mb-4">
 
-    [
-        'name' => 'Croissant Butter',
-        'price' => 18000,
-        'category' => 'Pastry',
-        'image' => 'https://placehold.co/600x400?text=Croissant'
-    ],
+            <div class="card shadow-sm border-0 h-100">
 
-    [
-        'name' => 'Cheese Cake',
-        'price' => 35000,
-        'category' => 'Cake',
-        'image' => 'https://placehold.co/600x400?text=Cheese+Cake'
-    ],
+                <img
+                    src="<?= BASE_URL; ?>/assets/images/no-image.png"
+                    class="card-img-top"
+                    alt="<?= htmlspecialchars($product['name']); ?>">
 
-    [
-        'name' => 'Donat Strawberry',
-        'price' => 12000,
-        'category' => 'Bread',
-        'image' => 'https://placehold.co/600x400?text=Donat'
-    ]
+                <div class="card-body">
 
-];
+                    <small class="text-muted">
 
-foreach ($products as $product) :
+                        <?= htmlspecialchars($product['category_name']); ?>
 
-?>
+                    </small>
 
-<div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mt-2">
 
-    <div class="card border-0 shadow-sm h-100">
+                        <?= htmlspecialchars($product['name']); ?>
 
-        <img
-            src="<?= $product['image']; ?>"
-            class="card-img-top"
-            alt="<?= htmlspecialchars($product['name']); ?>">
+                    </h5>
 
-        <div class="card-body d-flex flex-column">
+                    <p class="fw-bold text-primary mb-1">
 
-            <span class="badge bg-warning text-dark align-self-start mb-2">
+                        Rp <?= number_format($product['price'], 0, ',', '.'); ?>
 
-                <?= $product['category']; ?>
+                    </p>
 
-            </span>
+                    <small class="text-muted">
 
-            <h5 class="card-title">
+                        Stok :
 
-                <?= htmlspecialchars($product['name']); ?>
+                        <?= $product['stock']; ?>
 
-            </h5>
+                    </small>
 
-            <p class="text-success fw-bold fs-5">
+                </div>
 
-                Rp <?= number_format($product['price'], 0, ',', '.'); ?>
+                <div class="card-footer bg-white border-0">
 
-            </p>
+                    <a
+                        href="#"
+                        class="btn btn-outline-primary w-100">
 
-            <div class="mt-auto d-grid gap-2">
+                        Lihat Detail
 
-                <button
-                    class="btn btn-outline-primary">
+                    </a>
 
-                    <i class="bi bi-eye"></i>
-
-                    Detail
-
-                </button>
-
-                <button
-                    class="btn btn-primary">
-
-                    <i class="bi bi-cart-plus"></i>
-
-                    Tambah ke Keranjang
-
-                </button>
+                </div>
 
             </div>
 
         </div>
 
-    </div>
-
-</div>
-
-<?php endforeach; ?>
+    <?php endforeach; ?>
 
 </div>
 
