@@ -23,12 +23,17 @@ require_once APP_PATH . '/views/layouts/header.php';
                 <div class="text-center mb-4">
 
                     <h2 class="fw-bold">
+
                         <i class="bi bi-shop"></i>
+
                         BreadShop
+
                     </h2>
 
                     <p class="text-muted mb-0">
+
                         Daftar akun baru
+
                     </p>
 
                 </div>
@@ -37,7 +42,7 @@ require_once APP_PATH . '/views/layouts/header.php';
 
                     <div class="alert alert-danger">
 
-                        <?= $errors['general']; ?>
+                        <?= htmlspecialchars($errors['general']); ?>
 
                     </div>
 
@@ -45,11 +50,16 @@ require_once APP_PATH . '/views/layouts/header.php';
 
                 <form
                     action="<?= BASE_URL; ?>/register"
-                    method="POST">
+                    method="POST"
+                    novalidate>
+
+                    <!-- Nama -->
 
                     <div class="mb-3">
 
-                        <label class="form-label">
+                        <label
+                            for="name"
+                            class="form-label">
 
                             Nama Lengkap
 
@@ -57,15 +67,21 @@ require_once APP_PATH . '/views/layouts/header.php';
 
                         <input
                             type="text"
+                            id="name"
                             name="name"
                             class="form-control"
+                            autocomplete="name"
                             value="<?= htmlspecialchars($old['name'] ?? '') ?>">
+
+                        <small
+                            id="name-info"
+                            class="text-warning d-block mt-1"></small>
 
                         <?php if (!empty($errors['name'])) : ?>
 
-                            <small class="text-danger">
+                            <small class="text-danger d-block">
 
-                                <?= $errors['name']; ?>
+                                <?= htmlspecialchars($errors['name']); ?>
 
                             </small>
 
@@ -73,9 +89,13 @@ require_once APP_PATH . '/views/layouts/header.php';
 
                     </div>
 
+                    <!-- Email -->
+
                     <div class="mb-3">
 
-                        <label class="form-label">
+                        <label
+                            for="email"
+                            class="form-label">
 
                             Email
 
@@ -83,15 +103,17 @@ require_once APP_PATH . '/views/layouts/header.php';
 
                         <input
                             type="email"
+                            id="email"
                             name="email"
                             class="form-control"
+                            autocomplete="email"
                             value="<?= htmlspecialchars($old['email'] ?? '') ?>">
 
                         <?php if (!empty($errors['email'])) : ?>
 
-                            <small class="text-danger">
+                            <small class="text-danger d-block">
 
-                                <?= $errors['email']; ?>
+                                <?= htmlspecialchars($errors['email']); ?>
 
                             </small>
 
@@ -99,30 +121,129 @@ require_once APP_PATH . '/views/layouts/header.php';
 
                     </div>
 
-                    <div class="mb-4">
+                    <!-- Password -->
 
-                        <label class="form-label">
+                    <div class="mb-2">
+
+                        <label
+                            for="password"
+                            class="form-label">
 
                             Password
 
                         </label>
 
-                        <input
-                            type="password"
-                            name="password"
-                            class="form-control">
+                        <div class="input-group">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control"
+                                autocomplete="new-password">
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                id="toggle-password">
+
+                                <i
+                                    id="password-icon"
+                                    class="bi bi-eye">
+                                </i>
+
+                            </button>
+
+                        </div>
 
                         <?php if (!empty($errors['password'])) : ?>
 
-                            <small class="text-danger">
+                            <small class="text-danger d-block">
 
-                                <?= $errors['password']; ?>
+                                <?= htmlspecialchars($errors['password']); ?>
 
                             </small>
 
                         <?php endif; ?>
 
                     </div>
+
+                    <!-- Password Strength -->
+
+                    <div class="mb-1">
+
+                        <div
+                            class="progress"
+                            style="height:8px;">
+
+                            <div
+                                id="password-strength-bar"
+                                class="progress-bar"
+                                role="progressbar"
+                                style="width:0%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Konfirmasi Password -->
+
+                    <div class="mb-4">
+
+                        <label
+                            for="confirm_password"
+                            class="form-label">
+
+                            Konfirmasi Password
+
+                        </label>
+
+                        <div class="input-group">
+
+                            <input
+                                type="password"
+                                id="confirm_password"
+                                name="confirm_password"
+                                class="form-control"
+                                autocomplete="new-password">
+
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                id="toggle-confirm-password">
+
+                                <i
+                                    id="confirm-password-icon"
+                                    class="bi bi-eye">
+                                </i>
+
+                            </button>
+
+                        </div>
+
+                        <small
+                            id="confirm-password-info"
+                            class="d-block mt-1">
+                        </small>
+                        <?php if (!empty($errors['confirm_password'])) : ?>
+
+                        <small class="text-danger d-block">
+
+                            <?= htmlspecialchars($errors['confirm_password']); ?>
+
+                        </small>
+
+                    <?php endif; ?>
+
+                    </div>
+
+                    <small
+                        id="confirm-password-info"
+                        class="d-block mt-1 text-muted">
+
+                    </small>
 
                     <button
                         type="submit"
@@ -159,6 +280,18 @@ require_once APP_PATH . '/views/layouts/header.php';
 </div>
 
 <?php
+
+/*
+|--------------------------------------------------------------------------
+| JavaScript Khusus Halaman Register
+|--------------------------------------------------------------------------
+*/
+
+$scripts = [
+
+    'register.js'
+
+];
 
 require_once APP_PATH . '/views/layouts/footer.php';
 

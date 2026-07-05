@@ -196,6 +196,7 @@ class AuthController extends Controller
     public function register(): void
     {
             $userModel = $this->model('UserModel');
+            $confirmPassword = $_POST['confirm_password'] ?? '';
 
             $data = [
 
@@ -220,7 +221,12 @@ class AuthController extends Controller
 
             if ($data['name'] === '') {
 
-                $errors['name'] = 'Nama tidak boleh kosong.';
+                $errors['name'] = 'Nama lengkap wajib diisi.';
+
+            } elseif (!preg_match('/^[a-zA-Z\s]+$/', $data['name'])) {
+
+                $errors['name'] = 'Nama hanya boleh berisi huruf dan spasi.';
+
             }
 
             /*
@@ -251,6 +257,25 @@ class AuthController extends Controller
             if (strlen($data['password']) < 6) {
 
                 $errors['password'] = 'Password minimal 6 karakter.';
+            }
+            /*
+            |--------------------------------------------------------------------------
+            | Validasi Konfirmasi Password
+            |--------------------------------------------------------------------------
+            */
+
+            if ($confirmPassword === '') {
+
+                $errors['confirm_password'] =
+                    'Konfirmasi password wajib diisi.';
+
+            }
+
+            elseif ($data['password'] !== $confirmPassword) {
+
+                $errors['confirm_password'] =
+                    'Konfirmasi password tidak sesuai.';
+
             }
 
             /*
