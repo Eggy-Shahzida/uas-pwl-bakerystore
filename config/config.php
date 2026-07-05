@@ -33,6 +33,35 @@ define('BASE_URL', 'http://localhost/bakery/public');
 
 /*
 |--------------------------------------------------------------------------
+| Shipping API Configuration (BinderByte)
+|--------------------------------------------------------------------------
+|
+| API Key BinderByte digunakan untuk:
+| - Mengambil daftar provinsi
+| - Mengambil daftar kota
+| - Menghitung ongkos kirim
+|
+*/
+
+define('BINDERBYTE_API_KEY', 'dd675f25e3836c2d443807e42744c22ca6398beed79a6031682c1ead49f8dea5');
+
+define(
+    'BINDERBYTE_BASE_URL',
+    'https://api.binderbyte.com'
+);
+
+/*
+|--------------------------------------------------------------------------
+| Lokasi Toko
+|--------------------------------------------------------------------------
+*/
+
+define('STORE_CITY_ID', '33.74');
+
+define('STORE_WEIGHT_DEFAULT', 1000);
+
+/*
+|--------------------------------------------------------------------------
 | Timezone
 |--------------------------------------------------------------------------
 */

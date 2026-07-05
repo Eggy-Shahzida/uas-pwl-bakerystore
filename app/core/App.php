@@ -133,7 +133,53 @@ class App
 
                 case 'checkout':
                     $controller = 'OrderController';
-                    $method = 'checkout';
+
+                    if (!isset($url[1])) {
+
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+                            $method = 'processCheckout';
+
+                        } else {
+
+                            $method = 'checkout';
+
+                        }
+
+                    } else {
+
+                        switch ($url[1]) {
+
+                            case 'provinces':
+                                $method = 'getProvinces';
+                                $params = [];
+                                break;
+
+                            case 'cities':
+                                $method = 'getCities';
+                                $params = [$url[2]];
+                                break;
+
+                            case 'services':
+                                $method = 'getServices';
+                                $params = [];
+                                break;
+
+                            case 'review':
+                                $method = 'review';
+                                break;
+
+                            case 'place-order':
+                                $method = 'placeOrder';
+                                break;
+
+                            default:
+                                $method = 'checkout';
+                                break;
+                        }
+
+                    }
+
                     break;
 
                 case 'orders':
