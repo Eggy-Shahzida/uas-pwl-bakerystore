@@ -6,22 +6,21 @@ declare(strict_types=1);
 |--------------------------------------------------------------------------
 | Shipping Service
 |--------------------------------------------------------------------------
-| Bertugas berkomunikasi dengan API BinderByte.
-|
-| Seluruh request HTTP ke layanan ongkir dilakukan pada class ini agar
-| Controller tetap fokus mengatur alur aplikasi (MVC).
+| Bertugas melakukan komunikasi dengan RajaOngkir API.
+| Seluruh request API dilakukan pada class ini agar Controller tetap
+| fokus mengatur alur aplikasi (MVC).
 |--------------------------------------------------------------------------
 */
 
 class ShippingService
 {
     /**
-     * API Key BinderByte.
+     * API Key RajaOngkir.
      */
     private string $apiKey;
 
     /**
-     * Base URL BinderByte API.
+     * Base URL RajaOngkir.
      */
     private string $baseUrl;
 
@@ -30,27 +29,25 @@ class ShippingService
      */
     public function __construct()
     {
-        $this->apiKey = BINDERBYTE_API_KEY;
+        $this->apiKey = RAJA_API_KEY;
 
-        $this->baseUrl = BINDERBYTE_BASE_URL;
+        $this->baseUrl = rtrim(RAJA_BASE_URL, '/');
     }
 
     /**
-     * Mengirim HTTP Request ke BinderByte.
-     *
-     * @param string $endpoint
-     * @param array  $params
-     *
-     * @return array
+     * ==========================================================
+     * HTTP GET
+     * ==========================================================
      */
-    private function request(
+    private function get(
         string $endpoint,
         array $params = []
     ): array {
 
-        $params['api_key'] = $this->apiKey;
-
-        $url = $this->baseUrl . $endpoint . '?' . http_build_query($params);
+        $url = $this->baseUrl .
+            $endpoint .
+            '?' .
+            http_build_query($params);
 
         $curl = curl_init();
 
@@ -62,7 +59,11 @@ class ShippingService
 
             CURLOPT_TIMEOUT => 30,
 
-            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_HTTPHEADER => [
+
+                'key: ' . $this->apiKey
+
+            ]
 
         ]);
 
@@ -70,78 +71,106 @@ class ShippingService
 
         if ($response === false) {
 
-            throw new Exception(
-                'cURL Error : ' . curl_error($curl)
-            );
+            throw new Exception(curl_error($curl));
         }
 
         curl_close($curl);
 
         $result = json_decode($response, true);
 
-        if ($result === null) {
+        if (!is_array($result)) {
 
-    echo "<h3>Request URL</h3>";
-    echo $url;
-
-    echo "<hr>";
-
-    echo "<h3>Raw Response</h3>";
-    echo "<pre>";
-    echo htmlspecialchars($response);
-    echo "</pre>";
-
-    exit;
-}
+            throw new Exception('Response API tidak valid.');
+        }
 
         return $result;
     }
 
     /**
-     * Mengambil seluruh provinsi.
-     *
-     * @return array
+     * ==========================================================
+     * HTTP POST
+     * ==========================================================
      */
-    public function getProvinces(): array
-    {
-        return $this->request('/wilayah/provinsi');
+    private function post(
+        string $endpoint,
+        array $data = []
+    ): array {
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+
+            CURLOPT_URL => $this->baseUrl . $endpoint,
+
+            CURLOPT_RETURNTRANSFER => true,
+
+            CURLOPT_POST => true,
+
+            CURLOPT_POSTFIELDS => http_build_query($data),
+
+            CURLOPT_TIMEOUT => 30,
+
+            CURLOPT_HTTPHEADER => [
+
+                'key: ' . $this->apiKey,
+
+                'Content-Type: application/x-www-form-urlencoded'
+
+            ]
+
+        ]);
+
+        $response = curl_exec($curl);
+
+        if ($response === false) {
+
+            throw new Exception(curl_error($curl));
+        }
+
+        curl_close($curl);
+
+        $result = json_decode($response, true);
+
+        if (!is_array($result)) {
+
+            throw new Exception('Response API tidak valid.');
+        }
+
+        return $result;
     }
 
     /**
-     * Mengambil kota berdasarkan provinsi.
-     *
-     * @param string $provinceId
-     *
-     * @return array
+     * ==========================================================
+     * Mengambil daftar provinsi.
+     * ==========================================================
+     */
+    public function getProvinces(): array
+    {
+        return $this->get(
+            '/api/v1/destination/province'
+        );
+    }
+
+    /**
+     * Mengambil daftar kota berdasarkan provinsi.
      */
     public function getCities(
         string $provinceId
     ): array {
 
-        return $this->request(
+        return $this->get(
 
-            '/wilayah/kabupaten',
-
-            [
-                'id_provinsi' => $provinceId
-            ]
+            '/api/v1/destination/city/' . $provinceId
 
         );
     }
 
     /**
+     * ==========================================================
      * Menghitung ongkir.
-     *
-     * @param string $origin
-     * @param string $destination
-     * @param int    $weight
-     * @param string $courier
-     *
-     * @return array
+     * ==========================================================
      */
     public function calculateCost(
-
-        
 
         string $destination,
 
@@ -151,13 +180,13 @@ class ShippingService
 
     ): array {
 
-        return $this->request(
+        return $this->post(
 
-            '/v1/cost',
+            '/api/v1/calculate/domestic-cost',
 
             [
 
-                'origin'      => STORE_CITY_ID,
+                'origin' => STORE_CITY_ID,
 
                 'destination' => $destination,
 

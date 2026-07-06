@@ -15,6 +15,16 @@ require_once APP_PATH . '/services/ShippingService.php';
 class OrderController extends Controller
 {
     /**
+     * Service RajaOngkir.
+     */
+    private ShippingService $shippingService;
+
+    public function __construct()
+    {
+        $this->shippingService = new ShippingService();
+    }
+
+    /**
      * Menampilkan halaman checkout.
      */
     public function checkout(): void
@@ -36,27 +46,13 @@ class OrderController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Ambil daftar provinsi
-        |--------------------------------------------------------------------------
-        */
-
-        require_once APP_PATH . '/services/ShippingService.php';
-
-        $shippingService = new ShippingService();
-
-        $provinces = $shippingService->getProvinces();
-
-        /*
-        |--------------------------------------------------------------------------
         | Tampilkan halaman checkout
         |--------------------------------------------------------------------------
         */
 
         $this->view('orders/checkout', [
 
-            'cart' => $_SESSION['cart'],
-
-            'provinces' => $provinces['value']
+            'cart' => $_SESSION['cart']
 
         ]);
     }
@@ -447,7 +443,7 @@ class OrderController extends Controller
     }
 
     /**
-     * API daftar provinsi.
+     * Mengambil seluruh provinsi.
      */
     public function getProvinces(): void
     {
@@ -455,11 +451,10 @@ class OrderController extends Controller
 
         try {
 
-            $shippingService = new ShippingService();
+            $result = $this->shippingService
+                ->getProvinces();
 
-            echo json_encode(
-                $shippingService->getProvinces()
-            );
+            echo json_encode($result);
 
         } catch (Exception $e) {
 
@@ -476,27 +471,48 @@ class OrderController extends Controller
     }
 
     /**
-     * Mengambil daftar kota berdasarkan provinsi.
+     * Mengambil kota berdasarkan provinsi.
      */
-    public function getCities(string $provinceId): void
+    public function getCities(): void
     {
-        require_once APP_PATH . '/services/ShippingService.php';
-
-        $shipping = new ShippingService();
-
         header('Content-Type: application/json');
 
-        echo json_encode(
-            $shipping->getCities($provinceId)
-        );
+        $provinceId = $_GET['province_id'] ?? '';
+
+        if ($provinceId === '') {
+
+            echo json_encode([]);
+
+            return;
+        }
+
+        try {
+
+            $result = $this->shippingService
+                ->getCities($provinceId);
+
+            echo json_encode($result);
+
+        } catch (Exception $e) {
+
+            http_response_code(500);
+
+            echo json_encode([
+
+                'success' => false,
+
+                'message' => $e->getMessage()
+
+            ]);
+        }
     }
 
     /**
-     * Mengambil daftar layanan pengiriman.
+     * Mengambil layanan pengiriman.
      */
     public function getServices(): void
     {
-        require_once APP_PATH . '/services/ShippingService.php';
+        header('Content-Type: application/json');
 
         $destination = $_GET['destination'] ?? '';
 
@@ -504,35 +520,37 @@ class OrderController extends Controller
 
         if ($destination === '' || $courier === '') {
 
-            http_response_code(400);
+            echo json_encode([]);
+
+            return;
+        }
+
+        try {
+
+            $result = $this->shippingService
+                ->calculateCost(
+
+                    $destination,
+
+                    STORE_WEIGHT_DEFAULT,
+
+                    $courier
+
+                );
+
+            echo json_encode($result);
+
+        } catch (Exception $e) {
+
+            http_response_code(500);
 
             echo json_encode([
 
                 'success' => false,
 
-                'message' => 'Parameter tidak lengkap.'
+                'message' => $e->getMessage()
 
             ]);
-
-            return;
         }
-
-        $shipping = new ShippingService();
-
-        header('Content-Type: application/json');
-
-        echo json_encode(
-
-            $shipping->calculateCost(
-
-                $destination,
-
-                STORE_WEIGHT_DEFAULT,
-
-                $courier
-
-            )
-
-        );
     }
 }

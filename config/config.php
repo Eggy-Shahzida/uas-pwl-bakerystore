@@ -43,11 +43,11 @@ define('BASE_URL', 'http://localhost/bakery/public');
 |
 */
 
-define('BINDERBYTE_API_KEY', 'dd675f25e3836c2d443807e42744c22ca6398beed79a6031682c1ead49f8dea5');
+define('RAJA_API_KEY', '85DkdkaS6c1a3378259134bd4bbDJPCg');
 
 define(
-    'BINDERBYTE_BASE_URL',
-    'https://api.binderbyte.com'
+    'RAJA_BASE_URL',
+    'https://rajaongkir.komerce.id'
 );
 
 /*

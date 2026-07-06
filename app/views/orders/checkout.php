@@ -7,6 +7,7 @@
 */
 
 $title = 'Checkout';
+echo "<h1 style='color:red'>CHECKOUT VIEW TERBARU</h1>";
 
 $errors = $errors ?? [];
 
@@ -166,17 +167,6 @@ require_once APP_PATH . '/views/layouts/header.php';
                                 -- Pilih Provinsi --
 
                             </option>
-
-                            <?php foreach ($provinces as $province) : ?>
-
-                                <option
-                                    value="<?= $province['id']; ?>">
-
-                                    <?= htmlspecialchars($province['name']); ?>
-
-                                </option>
-
-                            <?php endforeach; ?>
 
                         </select>
 

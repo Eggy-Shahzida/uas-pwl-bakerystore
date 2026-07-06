@@ -157,7 +157,7 @@ class App
 
                             case 'cities':
                                 $method = 'getCities';
-                                $params = [$url[2]];
+                                $params = [];
                                 break;
 
                             case 'services':

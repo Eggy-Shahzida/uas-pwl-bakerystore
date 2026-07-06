@@ -178,6 +178,11 @@
     |--------------------------------------------------------------------------
     */
     ?>
+    <script>
+
+const BASE_URL = "<?= BASE_URL; ?>";
+
+</script>
 
     <?php if (!empty($scripts) && is_array($scripts)) : ?>
 
@@ -191,10 +196,6 @@
 
 </body>
 
-<script>
 
-const BASE_URL = "<?= BASE_URL; ?>";
-
-</script>
 
 </html>
